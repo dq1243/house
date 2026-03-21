@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.admin.mapper.AttrKeyMapper">
+
+    <!--    自定义属性键值对象映射关系-->
+    <resultMap id="AttrKeyVoMap" type="com.dq.house.web.admin.vo.attr.AttrKeyVo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <collection property="attrValueList" ofType="com.dq.house.model.entity.AttrValue">
+            <id column="value_id" property="id"/>
+            <result column="value_name" property="name"/>
+            <result column="value_key_id" property="attrKeyId"/>
+        </collection>
+    </resultMap>
+
+    <!--    查询全部属性名称和属性值列表-->
+    <select id="listAttrInfo" resultMap="AttrKeyVoMap">
+        select k.id, k.name, v.id as value_id, v.name as value_name, v.attr_key_id as value_key_id
+        from attr_key k
+                 left join attr_value v on k.id = v.attr_key_id and v.is_deleted = 0
+        where k.is_deleted = 0
+    </select>
+</mapper>

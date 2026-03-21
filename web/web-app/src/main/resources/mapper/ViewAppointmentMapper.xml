@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.app.mapper.ViewAppointmentMapper">
+    <resultMap id="getListItem" type="com.dq.house.web.app.vo.appointment.AppointmentItemVo" autoMapping="true">
+        <collection property="graphVoList" ofType="com.dq.house.web.app.vo.graph.GraphVo" autoMapping="true"
+                    select="getGraphList" column="apartment_id"/>
+    </resultMap>
+
+    <select id="listItem" resultMap="getListItem">
+        select va.id,
+               va.appointment_time,
+               va.appointment_status,
+               ai.id   as apartment_id,
+               ai.name as apartment_name
+        from view_appointment va
+                 left join apartment_info ai
+                           on va.apartment_id = ai.id and ai.is_deleted = 0
+        where user_id = #{userId}
+          and va.is_deleted = 0
+    </select>
+
+    <select id="getGraphList" resultType="com.dq.house.web.app.vo.graph.GraphVo">
+        select name, url
+        from graph_info
+        where item_id = #{apartment_id}
+          and is_deleted = 0
+          and item_type = 1
+    </select>
+
+    <!--    根据预约id查询预约详情-->
+    <select id="getDetailById" resultType="com.dq.house.web.app.vo.appointment.AppointmentDetailVo">
+        select id,
+               user_id,
+               name,
+               phone,
+               apartment_id,
+               appointment_time,
+               additional_info,
+               appointment_status,
+               is_deleted
+        from view_appointment
+        where id = #{id}
+          and is_deleted = 0
+    </select>
+</mapper>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.admin.mapper.LeaseAgreementMapper">
+    <resultMap id="itemPageMap" type="com.dq.house.web.admin.vo.agreement.AgreementVo" autoMapping="true">
+        <id property="id" column="id"/>
+        <association property="apartmentInfo" javaType="com.dq.house.model.entity.ApartmentInfo" autoMapping="true">
+            <id property="id" column="apartment_info_id"/>
+        </association>
+        <association property="roomInfo" javaType="com.dq.house.model.entity.RoomInfo" autoMapping="true">
+            <id property="id" column="room_info_id"/>
+        </association>
+        <association property="paymentType" javaType="com.dq.house.model.entity.PaymentType" autoMapping="true">
+            <id property="id" column="payment_type_id"/>
+        </association>
+        <association property="leaseTerm" javaType="com.dq.house.model.entity.LeaseTerm" autoMapping="true">
+            <id property="id" column="lease_term_id"/>
+        </association>
+    </resultMap>
+
+    <!--    分页查询租约信息-->
+    <select id="itemPage" resultMap="itemPageMap">
+        select
+        la.id,
+        la.phone,
+        la.name,
+        la.identification_number,
+        la.apartment_id,
+        la.room_id,
+        la.lease_start_date,
+        la.lease_end_date,
+        la.lease_term_id,
+        la.rent,
+        la.deposit,
+        la.payment_type_id,
+        la.status,
+        la.source_type,
+        la.additional_info,
+        ai.id as apartment_info_id,
+        ai.is_deleted,
+        ai.introduction,
+        ai.district_id,
+        ai.district_name,
+        ai.city_id,
+        ai.city_name,
+        ai.province_id,
+        ai.province_name,
+        ai.address_detail,
+        ai.latitude,
+        ai.longitude,
+        ai.phone,
+        ai.is_release,
+        ri.id as room_info_id,
+        ri.is_deleted,
+        ri.room_number,
+        ri.rent,
+        ri.apartment_id,
+        ri.is_release,
+        pt.id as payment_type_id,
+        pt.is_deleted,
+        pt.pay_month_count,
+        pt.additional_info,
+        lt.id as lease_term_id,
+        lt.is_deleted,
+        lt.month_count,
+        lt.unit
+        from lease_agreement la
+        left join apartment_info ai
+        on la.apartment_id = ai.id
+        left join room_info ri
+        on la.room_id = ri.id
+        left join payment_type pt
+        on la.payment_type_id = pt.id
+        left join lease_term lt
+        on la.lease_term_id = lt.id
+        <where>
+            and la.is_deleted = 0
+            <if test="queryVo.cityId != null">and la.city_id = #{queryVo.cityId}</if>
+            <if test="queryVo.apartmentId != null">and la.apartment_id = #{queryVo.apartmentId}</if>
+            <if test="queryVo.roomNumber != null">and la.room_id = #{queryVo.roomNumber}</if>
+            <if test="queryVo.districtId != null">and la.district_id = #{queryVo.districtId}</if>
+            <if test="queryVo.name != null and queryVo.name != ''">and la.name like concat('%',#{queryVo.name},'%')</if>
+            <if test="queryVo.phone != null and queryVo.phone != ''">and la.phone like concat('%',#{queryVo.phone},'%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="getAgreementByIdMap" type="com.dq.house.web.admin.vo.agreement.AgreementVo" autoMapping="true">
+        <id property="id" column="id"/>
+        <association property="apartmentInfo" javaType="com.dq.house.model.entity.ApartmentInfo" autoMapping="true">
+            <id property="id" column="apartment_info_id"/>
+        </association>
+        <association property="roomInfo" javaType="com.dq.house.model.entity.RoomInfo" autoMapping="true">
+            <id property="id" column="room_info_id"/>
+        </association>
+        <association property="paymentType" javaType="com.dq.house.model.entity.PaymentType" autoMapping="true">
+            <id property="id" column="payment_type_id"/>
+        </association>
+        <association property="leaseTerm" javaType="com.dq.house.model.entity.LeaseTerm" autoMapping="true">
+            <id property="id" column="lease_term_id"/>
+        </association>
+    </resultMap>
+    <!--    根据id查询租约信息-->
+    <select id="getAgreementById" resultMap="getAgreementByIdMap">
+        select la.id,
+               la.phone,
+               la.name,
+               la.identification_number,
+               la.apartment_id,
+               la.room_id,
+               la.lease_start_date,
+               la.lease_end_date,
+               la.lease_term_id,
+               la.rent,
+               la.deposit,
+               la.payment_type_id,
+               la.status,
+               la.source_type,
+               la.additional_info,
+               ai.id as apartment_info_id,
+               ai.is_deleted,
+               ai.introduction,
+               ai.district_id,
+               ai.district_name,
+               ai.city_id,
+               ai.city_name,
+               ai.province_id,
+               ai.province_name,
+               ai.address_detail,
+               ai.latitude,
+               ai.longitude,
+               ai.phone,
+               ai.is_release,
+               ri.id as room_info_id,
+               ri.is_deleted,
+               ri.room_number,
+               ri.rent,
+               ri.apartment_id,
+               ri.is_release,
+               pt.id as payment_type_id,
+               pt.is_deleted,
+               pt.pay_month_count,
+               pt.additional_info,
+               lt.id as lease_term_id,
+               lt.is_deleted,
+               lt.month_count,
+               lt.unit
+        from lease_agreement la
+                 left join apartment_info ai
+                           on apartment_id = ai.id
+                 left join room_info ri
+                           on la.room_id = ri.id
+                 left join payment_type pt
+                           on la.payment_type_id = pt.id
+                 left join lease_term lt
+                           on la.lease_term_id = lt.id
+        where la.id = #{id}
+          and la.is_deleted = 0
+
+    </select>
+</mapper>

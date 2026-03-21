@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.admin.mapper.RoomLabelMapper">
+    <!--    根据房间id查询标签列表/-->
+    <select id="getListByRoomId" resultType="com.dq.house.model.entity.LabelInfo">
+        select rl.id, l.name, rl.is_deleted, l.type
+        from room_label rl
+                 left join label_info l on rl.label_id = l.id
+        where rl.room_id = #{id}
+          and rl.is_deleted = 0
+          and l.is_deleted = 0
+    </select>
+</mapper>

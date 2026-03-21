@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.admin.mapper.UserInfoMapper">
+
+    <select id="itemPage" resultType="com.dq.house.model.entity.UserInfo">
+        select
+        id,
+        phone,
+        password,
+        status,
+        avatar_url,
+        nickname,
+        is_deleted
+        from user_info
+        <where>
+            <if test="queryVo.status != null">
+                and status = #{queryVo.status}
+            </if>
+            <if test="queryVo.phone != null and phone != ''">
+                and phone like concat('%', #{phone}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

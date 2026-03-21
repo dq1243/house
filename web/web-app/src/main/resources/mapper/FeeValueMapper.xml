@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.app.mapper.FeeValueMapper">
+
+    <resultMap id="getListByRoomId" type="com.dq.house.web.app.vo.fee.FeeValueVo" autoMapping="true">
+        <result property="feeKeyName" column="fee_key_name"/>
+    </resultMap>
+
+    <!--    根据房间id获取费用列表-->
+    <select id="getListByRoomId" resultMap="getListByRoomId">
+        select fk.id,
+               fk.name as fee_key_name,
+               fv.fee_key_id,
+               fv.name,
+               fv.is_deleted,
+               fv.unit
+        from fee_value fv
+                 left join fee_key fk
+                           on fv.fee_key_id = fk.id and fk.is_deleted = 0
+        where fv.id in
+              (select fee_value_id
+               from apartment_fee_value
+               where apartment_id =
+                     (select apartment_id
+                      from room_info
+                      where id = #{id}
+                        and is_deleted = 0)
+                 and is_deleted = 0)
+          and fv.is_deleted = 0
+    </select>
+</mapper>

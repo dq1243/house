@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.app.mapper.ApartmentInfoMapper">
+    <!--    根据预约ID查询预约看房的公寓信息-->
+    <resultMap id="getItemList" type="com.dq.house.web.app.vo.apartment.ApartmentItemVo" autoMapping="true">
+        <id property="id" column="apartment_id"/>
+        <collection property="labelInfoList" ofType="com.dq.house.model.entity.LabelInfo" autoMapping="true"
+                    select="getLabelInfoList" column="apartment_id"/>
+        <collection property="graphVoList" ofType="com.dq.house.web.app.vo.graph.GraphVo" autoMapping="true"
+                    select="getGraphList" column="apartment_id"/>
+    </resultMap>
+    <select id="getAppointDetailVo" resultMap="getItemList">
+        select ai.id        as apartment_id,
+               ai.name,
+               ai.introduction,
+               ai.district_id,
+               ai.district_name,
+               ai.city_id,
+               ai.city_name,
+               ai.province_id,
+               ai.province_name,
+               ai.address_detail,
+               ai.latitude,
+               ai.longitude,
+               ai.phone,
+               ai.is_release,
+               ai.is_deleted,
+               min(ri.rent) as min_rent
+        from apartment_info ai
+                 left join room_info ri
+                           on ai.id = ri.apartment_id and ri.is_deleted = 0
+        where ai.id = #{id}
+          and ai.is_deleted = 0
+        group by ai.id
+    </select>
+    <select id="getLabelInfoList" resultType="com.dq.house.model.entity.LabelInfo">
+        select id,
+               type,
+               name,
+               is_deleted
+        from label_info
+        where id in
+              (select label_id
+               from apartment_label
+               where apartment_id = #{apartment_id}
+                 and is_deleted = 0)
+    </select>
+    <select id="getGraphList" resultType="com.dq.house.web.app.vo.graph.GraphVo">
+        select name, url
+        from graph_info
+        where item_id = #{apartment_id}
+          and is_deleted = 0
+          and item_type = 1
+    </select>
+    <select id="getFacilityInfoList" resultType="com.dq.house.model.entity.FacilityInfo">
+        select id,
+               name,
+               type,
+               icon,
+               is_deleted
+        from facility_info
+        where id in
+              (select facility_id
+               from apartment_facility
+               where apartment_id = #{apartment_id}
+                 and is_deleted = 0)
+    </select>
+
+    <resultMap id="getDetailListById" type="com.dq.house.web.app.vo.apartment.ApartmentDetailVo" autoMapping="true">
+        <collection property="graphVoList" autoMapping="true" ofType="com.dq.house.web.app.vo.graph.GraphVo"
+                    select="getGraphList" column="apartment_id"/>
+        <collection property="labelInfoList" autoMapping="true" ofType="com.dq.house.model.entity.LabelInfo"
+                    select="getLabelInfoList" column="apartment_id"/>
+        <collection property="facilityInfoList" autoMapping="true" ofType="com.dq.house.model.entity.FacilityInfo"
+                    select="getFacilityInfoList" column="apartment_id"/>
+    </resultMap>
+    <!--    根据公寓id查询公寓详情-->
+    <select id="getDetailById" resultMap="getDetailListById">
+        select ai.id        as apartment_id,
+               ai.name,
+               ai.introduction,
+               ai.district_id,
+               ai.district_name,
+               ai.city_id,
+               ai.city_name,
+               ai.province_id,
+               ai.province_name,
+               ai.address_detail,
+               ai.latitude,
+               ai.longitude,
+               ai.phone,
+               ai.is_release,
+               ai.is_deleted,
+               min(ri.rent) as min_rent
+        from apartment_info ai
+                 left join room_info ri on ai.id = ri.apartment_id and ri.is_deleted = 0
+        where ai.is_deleted = 0
+          and ai.id = #{id}
+        group by ai.id
+    </select>
+
+
+    <!--    根据公寓id查询公寓详情信息-->
+    <resultMap id="getApartmentItemVoList" type="com.dq.house.web.app.vo.apartment.ApartmentItemVo" autoMapping="true">
+        <id property="id" column="apartment_id"/>
+        <result property="name" column="apartment_name"/>
+        <collection property="graphVoList" ofType="com.dq.house.web.app.vo.graph.GraphVo">
+            <result property="name" column="graph_name"/>
+            <result property="url" column="url"/>
+        </collection>
+        <collection property="labelInfoList" ofType="com.dq.house.model.entity.LabelInfo">
+            <id property="id" column="label_id"/>
+            <result property="type" column="type"/>
+            <result property="name" column="label_name"/>
+            <result property="isDeleted" column="label_is_deleted"/>
+        </collection>
+    </resultMap>
+    <select id="getApartmentItemVoById" resultMap="getApartmentItemVoList">
+        select ai.id         as apartment_id,
+               ai.name       as apartment_name,
+               ai.introduction,
+               ai.district_id,
+               ai.district_name,
+               ai.city_id,
+               ai.city_name,
+               ai.province_id,
+               ai.province_name,
+               ai.address_detail,
+               ai.latitude,
+               ai.longitude,
+               ai.phone,
+               ai.is_release,
+               ai.is_deleted,
+               gi.name       as graph_name,
+               gi.url,
+               li.id         as label_id,
+               li.type,
+               li.name       as label_name,
+               li.is_deleted as label_is_deleted
+        from apartment_info ai
+                 left join room_info ri
+                           on ai.id = ri.apartment_id and ri.is_deleted = 0
+                 left join graph_info gi
+                           on ai.id = gi.item_id and gi.item_type = 1 and gi.is_deleted = 0
+                 left join apartment_label al
+                           on ai.id = al.apartment_id and al.is_deleted = 0
+                 left join label_info li
+                           on al.label_id = li.id and li.is_deleted = 0
+        where ai.is_deleted = 0
+          and ai.id = #{id}
+    </select>
+
+    <!--    根据公寓id查询公寓的最低租金-->
+    <select id="getMinRent" resultType="java.math.BigDecimal">
+        select min(rent)
+        from room_info
+        where apartment_id = #{apartment_id}
+          and is_deleted = 0
+    </select>
+</mapper>

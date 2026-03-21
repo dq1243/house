@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.dq</groupId>
+    <artifactId>house</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <!--    引入springboot父项目，提供默认配置和依赖管理-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.11</version>
+    </parent>
+
+    <!--    <modules>(聚合): 父项目可以统一管理和构建这些模块-->
+    <!--    聚合管理：<modules> 列出了所有子模块（module），使父项目可以统一管理和构建这些模块。
+            例如，父项目执行 mvn install 时，会自动构建所有列出的子模块。-->
+    <!--    结构清晰：通过 <modules>，项目结构更清晰，便于分层和分工，每个模块可以有独立的功能和依赖。-->
+    <!--    统一版本控制：父项目可以统一指定版本、属性等，子模块继承父项目配置，减少重复配置。-->
+    <!--    便于依赖管理：子模块间可以相互依赖，父项目统一管理依赖版本，避免冲突。-->
+    <modules>
+        <module>common</module>
+        <module>web</module>
+        <module>model</module>
+    </modules>
+
+
+    <!--    <properties>: 标签用于定义项目的全局属性-->
+    <!--    统一配置：可以在 <properties> 中设置如 Java 编译版本、编码等参数，所有子模块都会继承这些配置，保证一致性。-->
+    <!--    变量替换：属性可以在 pom.xml 的其他地方通过 ${属性名} 方式引用，便于维护和修改。-->
+    <!--    简化管理：集中管理依赖版本、插件版本等，减少重复配置，方便升级-->
+    <properties>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mybatis.plus.version>3.5.15</mybatis.plus.version>
+        <mybatisplus.jsqlparser.version>3.5.15</mybatisplus.jsqlparser.version>
+        <swagger.version>2.9.2</swagger.version>
+        <jwt.version>0.13.0</jwt.version>
+        <easycaptcha.version>1.6.2</easycaptcha.version>
+        <minio.version>8.6.0</minio.version>
+        <okhttp3.version>4.9.3</okhttp3.version>
+        <knife4j.version>4.3.0</knife4j.version>
+        <springdoc.version>2.3.0</springdoc.version>
+        <aliyun.sms.version>4.7.8</aliyun.sms.version>
+        <email.version>2.0.1</email.version>
+    </properties>
+
+    <!--    配置依赖管理，统一管理依赖版本，避免冲突-->
+    <dependencyManagement>
+        <dependencies>
+            <!--            引入mybatis-plus-spring-boot3-starter，提供MyBatis-Plus的集成和自动配置，简化数据库操作。-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis.plus.version}</version>
+            </dependency>
+            <!--            引入分页插件-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>${mybatisplus.jsqlparser.version}</version>
+            </dependency>
+
+            <!--            引入jwt相关依赖，提供JWT的功能和实现，用于用户认证和授权。-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jwt.version}</version>
+            </dependency>
+
+            <!--            引入minio相关依赖，提供MinIO的功能和实现，用于对象存储和文件管理。-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp3.version}</version>
+            </dependency>
+            <!--            引入knife4j相关依赖，提供Knife4j的集成和自动配置，用于生成API文档和接口测试。-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+
+            <!--            引入easy-captcha相关依赖，提供EasyCaptcha的功能和实现，用于生成验证码和图形验证码。&ndash;&gt;-->
+            <dependency>
+                <groupId>com.github.whvcse</groupId>
+                <artifactId>easy-captcha</artifactId>
+                <version>${easycaptcha.version}</version>
+            </dependency>
+
+            <!--            引入aliyun-java-sdk-core，提供阿里云SDK的核心功能，用于与阿里云服务进行交互，例如发送短信等。-->
+<!--            <dependency>-->
+<!--                <groupId>com.aliyun</groupId>-->
+<!--                <artifactId>aliyun-java-sdk-core</artifactId>-->
+<!--                <version>${aliyun.sms.version}</version>-->
+<!--            </dependency>-->
+
+            <!--            引入jakarta.mail相关依赖，提供Jakarta Mail的功能和实现，用于发送电子邮件和处理邮件相关操作。-->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>jakarta.mail</artifactId>
+                <version>${email.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

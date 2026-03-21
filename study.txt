@@ -1,0 +1,87 @@
+如果 common 模块中有用到 Spring MVC 注解（如 @RestController、@ControllerAdvice、@RequestBody、@ResponseBody 等），
+或者有全局异常处理器、拦截器、过滤器等 Web 相关类，就必须依赖 spring-boot-starter-web
+
+
+springMvc常用注解：
+@RequestParam：绑定请求参数到方法参数。
+@PathVariable：绑定 URL 路径中的变量到方法参数。
+@RequestBody：将请求体 JSON/XML 数据绑定到 Java 对象
+@ResponseBody：将方法返回值直接作为 HTTP 响应体（常用于返回 JSON）。
+@ResponseStatus：设置响应状态码。
+
+
+knife4j常用注解：
+@Tag：用于类上，分组接口文档  @Tag(name = "用户管理", description = "用户相关接口")
+@Operation：用于方法上，描述接口的用途  @Operation(summary = "新增用户", description = "创建一个新用户")
+@Parameter：用于方法参数，描述参数信息  @Parameter(name = "userId", description = "用户ID", required = true)
+@Schema：用于实体类或字段，描述字段含义。  @Schema(description = "用户名称")
+@Hidden：隐藏接口或参数，不生成文档
+
+
+mybatisPlus常用注解：
+@TableName：指定数据库表名  @TableName("user")
+@TableId：指定主键字段  @TableId(value = "id", type = IdType.AUTO)
+@TableField：指定普通字段  @TableField("username")
+@EnumValue：指定枚举值字段  @EnumValue
+
+mybatisPlus的更新策略：
+ignore：忽略空值字段，不更新数据库中的对应列。
+notNull（默认）：仅更新非 null 值字段，null 值字段不更新数据库中的对应列。
+notEmpty：仅更新非空字符串字段，空字符串字段不更新数据库中的对应列
+never：不更新任何字段，适用于只想更新特定字段的情况。
+默认情况下，MyBatis-Plus 会更新所有字段，包括 null 和空字符串字段。
+如果需要使用更新策略，可以在实体类字段上使用 @TableField 注解的 updateStrategy 属性来定制更新行为。例如：
+@TableField(updateStrategy = FieldStrategy.IGNORE_NULL)
+也可以在全局配置中设置默认的更新策略：对全部字段生效
+mybatis-plus:
+  global-config:
+    db-config:
+      field-strategy: IGNORE_NULL
+
+
+类型转换(String&Enum):
+                    HTTPMessageConverter(SpringMvc)                TypeHandler(MybatisPlus)
+               前端---------------------------------->Controller------------------------------->数据库
+               String     String<------->枚举对象       枚举对象      枚举对象<---------->枚举值     枚举值
+                                @JsonValue                                 @EnumValue
+
+类型转换(String&Type):
+                    HTTPMessageConverter(SpringMvc)                TypeHandler(MybatisPlus)
+               前端---------------------------------->Controller------------------------------->数据库
+              String        String<-->Type对象          Type对象       Type对象<-->属性(@EnumValue)  属性
+
+
+在 MyBatis 的 resultMap 中，
+    常用标签有：
+    id：用于标识主键字段，column 指数据库主键列，property 指 Java 对象主键属性。MyBatis 用它区分对象唯一性。 示例：<id></id>
+    result：用于普通字段映射，column 指数据库列，property 指 Java Bean 属性。 示例：<result></result>
+    collection：用于集合属性映射，实现一对多嵌套。property 指集合属性名，ofType 指集合元素类型。 示例：<collection>...</collection>
+    association：用于嵌套对象映射，实现一对一嵌套。property 指对象属性名，javaType 指对象类型。 示例：<association>...</association>
+    discriminator：用于条件映射，根据某个字段值决定使用哪个 resultMap，适合多态映射。
+    常用属性：
+    column：数据库字段名
+    property：Java Bean 属性名
+    ofType：集合元素类型（collection 用）
+    javaType：对象类型（association 用）
+嵌套查询与嵌套子查询：
+    嵌套查询：在 resultMap 中使用 association 或 collection 标签，通过 select 属性指定另一个查询方法，实现关联查询。
+    嵌套子查询：在 SQL 语句中直接嵌套一个 SELECT 查询，获取关联数据。（不能使用外部参数）
+    以 limit 2 为例：
+        room_info           graph_info
+        id1  name1         room_id1 url1
+        id2  name2         room_id1 url2
+                           room_id2 url3
+                           room_id2 url4
+
+    嵌套查询：只有一个房间          嵌套子查询：两个房间
+    id1 name1 url1              id1 name1 【url1, url2】
+    id1 name1 url2              id2 name2 【url3, url4】
+
+
+定时任务：
+@启动类加EnableScheduling
+@Scheduled(cron = "0 0 0 * * ?") // 每天凌晨执行
+cron表达式格式：秒 分 时 日 月 周 年（可选）
+* 表示任意值
+? 表示不指定值（只能用于日和周）
+- 表示范围，如 1-5

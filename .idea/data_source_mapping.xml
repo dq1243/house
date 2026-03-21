@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/ApartmentInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/FacilityInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/FeeValueMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/GraphInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/LabelInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/LeaseAgreementMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/LeaseTermMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/PaymentTypeMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomAttrValueMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomFacilityMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomLabelMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomLeaseTermMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/RoomPaymentTypeMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/SystemUserMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-admin/src/main/resources/mapper/ViewAppointmentMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/ApartmentInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/BrowsingHistoryMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/FeeValueMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/GraphInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/LeaseAgreementMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomAttrValueMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomFacilityMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomInfoMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomLabelMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomLeaseTermMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/RoomPaymentTypeMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+    <file url="file://$PROJECT_DIR$/web/web-app/src/main/resources/mapper/ViewAppointmentMapper.xml" value="f25a974a-a5eb-4834-8349-e98794de2b69" />
+  </component>
+</project>

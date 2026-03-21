@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.app.mapper.RoomLeaseTermMapper">
+
+    <!--    根据房间id查询租赁条款-->
+    <select id="getListByRoomId" resultType="com.dq.house.model.entity.LeaseTerm">
+        select id, month_count, unit, is_deleted
+        from lease_term
+        where id in
+              (select lease_term_id
+               from room_lease_term
+               where room_id = #{id})
+    </select>
+</mapper>

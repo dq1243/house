@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dq.house.web.app.mapper.RoomAttrValueMapper">
+
+    <select id="getListByRoomId" resultType="com.dq.house.web.app.vo.attr.AttrValueVo">
+        select av.id,
+               av.name,
+               av.attr_key_id as attr_key_id,
+               ak.name        as attr_key_name,
+               av.is_deleted
+        from attr_value av
+                 left join attr_key ak
+                           on av.attr_key_id = ak.id and ak.is_deleted = 0
+        where av.id in
+              (select attr_value_id
+               from room_attr_value
+               where room_id = #{id})
+          and av.is_deleted = 0
+    </select>
+</mapper>
